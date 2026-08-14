@@ -81,3 +81,65 @@ src/
   data/             profile.js, projects.js, hackathons.js, achievements.js, skills.js
   hooks/            useLenis, useReducedMotion, useIsTouchDevice
 ```
+
+## Push this to GitHub
+
+A git repo has already been initialized locally with one commit. To push it:
+
+1. Create a new **empty** repo on GitHub (no README/license/gitignore) — either at
+   [github.com/new](https://github.com/new), or via the CLI if you have `gh` installed:
+   ```bash
+   gh repo create ayush-dwivedi-portfolio --public --source=. --remote=origin
+   ```
+2. If you created it on the website instead, add the remote and push manually:
+   ```bash
+   git remote add origin https://github.com/<your-username>/<repo-name>.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+From then on, `git add -A && git commit -m "..." && git push` ships new changes.
+
+## Deploy it
+
+The project builds to static files (`npm run build` → `dist/`), so any static host works.
+Pick whichever is easiest for you:
+
+### Option A — Vercel (recommended, zero config)
+A `vercel.json` is already included with the SPA rewrite rule React Router needs.
+1. Go to [vercel.com/new](https://vercel.com/new) and import the GitHub repo.
+2. Framework preset: **Vite**. Build command `npm run build`, output dir `dist` (Vercel
+   detects this automatically).
+3. Deploy. Every push to `main` auto-deploys after this.
+
+### Option B — Netlify
+A `public/_redirects` file is already included with the SPA fallback rule.
+1. [app.netlify.com/start](https://app.netlify.com/start) → import the repo.
+2. Build command: `npm run build`. Publish directory: `dist`.
+3. Deploy.
+
+### Option C — GitHub Pages (free, no separate host)
+A workflow at `.github/workflows/deploy.yml` is already included — it builds and deploys
+to Pages automatically on every push to `main`. To activate it:
+1. Push the repo to GitHub (see above).
+2. In the repo settings → **Pages**, set **Source** to "GitHub Actions".
+3. Push to `main` (or re-run the workflow from the **Actions** tab) — it'll deploy to
+   `https://<your-username>.github.io/<repo-name>/`.
+4. **Important**: since this serves from a subpath (`/repo-name/`), add a `base` to
+   `vite.config.js` before deploying this way:
+   ```js
+   export default defineConfig({
+     base: '/<repo-name>/',
+     // ...rest of the config
+   })
+   ```
+   Skip this step entirely if you're using Vercel/Netlify, or if you set up a custom
+   domain / user-root GitHub Pages site (`<username>.github.io` repo) instead — those
+   serve from `/`.
+
+### After deploying
+- Update `index.html`'s `<link rel="canonical" href="...">` and the Open Graph tags to
+  your real live URL.
+- Update `src/data/profile.js` and the other data files with real info (see the section
+  above) before sharing the link widely.
+
