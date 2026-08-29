@@ -85,7 +85,7 @@ export default function ProjectDetail() {
           className="mb-20 aspect-[16/8] rounded-2xl border border-border-soft"
           style={{
             background:
-              "radial-gradient(circle at 30% 20%, rgba(94,231,255,0.10), transparent 55%), linear-gradient(160deg, #0d0f12, #08090b)",
+              "radial-gradient(circle at 30% 20%, rgba(211,162,92,0.12), transparent 55%), linear-gradient(160deg, var(--color-surface), var(--color-bg))",
           }}
         />
 

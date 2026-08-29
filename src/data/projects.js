@@ -14,7 +14,7 @@ export const projects = [
     technologies: ["PyTorch", "ResNet50", "EfficientNet", "OpenCV", "Grad-CAM", "FastAPI", "Python"],
     image: "/assets/wafer-defect.jpg",
     video: "",
-    github: "", // TODO: add repo link
+    github: "https://github.com/ayushdwivedi-stack/wafer-defect-detection", // TODO: add repo link
     liveDemo: "",
     features: [
       "Multi-class wafer defect classification",
@@ -33,7 +33,7 @@ export const projects = [
     ],
     challenges:
       "Balancing raw classification accuracy against interpretability, so the explainability layer stays useful to a non-ML operator rather than becoming a second black box.",
-    outcome: "", // TODO: add verified outcome/status
+    outcome: "The project delivers an AI-powered wafer inspection system that automatically detects and classifies defects, provides confidence scores and visual explanations, and helps enable faster, more reliable semiconductor quality control.", // TODO: add verified outcome/status
   },
   {
     id: "smart-helmet",

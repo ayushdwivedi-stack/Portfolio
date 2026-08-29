@@ -20,9 +20,10 @@ Requires Node 18+.
 - **Architecture** — clean `src/{components,pages,data,hooks,utils}` split.
   Add a new project/hackathon/achievement by editing the matching file in
   `src/data/` — no component changes needed.
-- **Design system** — dark, near-black surfaces, restrained cyan/blue glow,
-  mono technical labels, editorial numbering, film-grain overlay. Tokens live
-  in `src/index.css` under `@theme` (Tailwind v4 CSS-first config).
+- **Design system** — warm near-black surfaces, brass/copper accents,
+  editorial Fraunces display type, mono technical labels, subtle motion and
+  film-grain overlay. Tokens live in `src/index.css` under `@theme`
+  (Tailwind v4 CSS-first config).
 - **Routing** — all 9 routes from the brief, animated page transitions,
   route-level code splitting (`React.lazy`) so only the Home route ships
   eagerly.
@@ -125,21 +126,12 @@ to Pages automatically on every push to `main`. To activate it:
 2. In the repo settings → **Pages**, set **Source** to "GitHub Actions".
 3. Push to `main` (or re-run the workflow from the **Actions** tab) — it'll deploy to
    `https://<your-username>.github.io/<repo-name>/`.
-4. **Important**: since this serves from a subpath (`/repo-name/`), add a `base` to
-   `vite.config.js` before deploying this way:
-   ```js
-   export default defineConfig({
-     base: '/<repo-name>/',
-     // ...rest of the config
-   })
-   ```
-   Skip this step entirely if you're using Vercel/Netlify, or if you set up a custom
-   domain / user-root GitHub Pages site (`<username>.github.io` repo) instead — those
-   serve from `/`.
+4. The Vite `base` path is handled automatically for GitHub Pages project repos.
+   Vercel, Netlify, custom domains, and user-root GitHub Pages repos still build
+   from `/`.
 
 ### After deploying
 - Update `index.html`'s `<link rel="canonical" href="...">` and the Open Graph tags to
   your real live URL.
 - Update `src/data/profile.js` and the other data files with real info (see the section
   above) before sharing the link widely.
-

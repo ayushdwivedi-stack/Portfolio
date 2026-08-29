@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #08090b;
-  --color-surface: #0d0f12;
-  --color-surface-2: #121417;
-  --color-border: #1e2126;
-  --color-border-soft: #16181c;
-  --color-text: #eef0f2;
-  --color-text-dim: #9aa0a8;
-  --color-text-faint: #5c6168;
-  --color-accent: #5ee7ff;
-  --color-accent-2: #7c9cff;
-  --color-accent-dim: #2a6b78;
+  --color-bg: #0b0a08;
+  --color-surface: #12100c;
+  --color-surface-2: #18140f;
+  --color-border: #2a241b;
+  --color-border-soft: #211c15;
+  --color-text: #f2eee7;
+  --color-text-dim: #aaa095;
+  --color-text-faint: #70665a;
+  --color-accent: #d3a25c;
+  --color-accent-2: #e0c17f;
+  --color-accent-dim: #8f6532;
   --color-danger: #ff5d5d;
 
-  --font-display: "Neue Montreal", "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
 
@@ -43,7 +43,7 @@ body {
   overflow-x: hidden;
 }
 
-::selection { background: var(--color-accent); color: #06070a; }
+::selection { background: var(--color-accent); color: #0b0a08; }
 
 .grain::before {
   content: "";
@@ -79,7 +79,13 @@ body {
   color: var(--color-text-faint);
 }
 
-.glow-text { text-shadow: 0 0 40px rgba(94, 231, 255, 0.25); }
+.glow-text {
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  text-shadow: 0 0 22px rgba(211, 162, 92, 0.14);
+}
 
 .hairline {
   background: linear-gradient(90deg, transparent, var(--color-border) 20%, var(--color-border) 80%, transparent);

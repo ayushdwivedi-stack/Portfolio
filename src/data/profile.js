@@ -1,11 +1,11 @@
 // Edit this file to update identity, links and headline copy site-wide.
 export const profile = {
   name: "Ayush Dwivedi",
-  role: "AI / Software / ECE",
+  role: "AI / Software ",
   tagline: "I build systems that think, move & ship.",
   location: "Kanpur, Uttar Pradesh, India",
-  institution: "B.Tech, Electronics & Communication Engineering",
-  email: "", // TODO: add a public contact email
+  institution: "B.Tech Student at Galgotias College of Engineering and Technology",
+  email: "ayushdwivedi8756326270@gmail.com", // TODO: add a public contact email
   resumeUrl: "", // TODO: add a link to a hosted resume PDF
   social: {
     github: "https://github.com/ayushdwivedi-stack",
@@ -17,12 +17,12 @@ export const profile = {
   about: {
     headline: "WHO IS AYUSH?",
     body:
-      "A B.Tech ECE student interested in software engineering, AI/ML, computer vision, backend systems, embedded systems and building real-world products.",
+      "A B.Tech student interested in software engineering, AI/ML, computer vision, backend systems, embedded systems and building real-world products.",
     education: [
       {
-        degree: "B.Tech, Electronics & Communication Engineering",
+        degree: "B.Tech",
         place: "Galgotias College of Engineering and Technology",
-        period: "", // TODO: add years
+        period: "2024 - 2028",
         notes: "",
       },
     ],
