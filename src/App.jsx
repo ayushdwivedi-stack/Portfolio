@@ -1,23 +1,32 @@
 import { Routes, Route, useLocation } from "react-router-dom"
-import { lazy, Suspense, useEffect } from "react"
+import { Suspense, useEffect } from "react"
 import Layout from "@/components/layout/Layout"
 
-// Route-level code splitting: only Home ships eagerly (it's the landing
-// experience); every other route — and the heavy 3D hero — loads on demand.
 import Home from "@/pages/Home"
-const Projects = lazy(() => import("@/pages/Projects"))
-const ProjectDetail = lazy(() => import("@/pages/ProjectDetail"))
-const Hackathons = lazy(() => import("@/pages/Hackathons"))
-const Achievements = lazy(() => import("@/pages/Achievements"))
-const About = lazy(() => import("@/pages/About"))
-const Contact = lazy(() => import("@/pages/Contact"))
-const NotFound = lazy(() => import("@/pages/NotFound"))
+import Projects from "@/pages/Projects"
+import ProjectDetail from "@/pages/ProjectDetail"
+import Hackathons from "@/pages/Hackathons"
+import Achievements from "@/pages/Achievements"
+import About from "@/pages/About"
+import Contact from "@/pages/Contact"
+import Blog from "@/pages/Blog"
+import BlogPost from "@/pages/BlogPost"
+import Experience from "@/pages/Experience"
+import NotFound from "@/pages/NotFound"
 
 function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   useEffect(() => {
+    if (hash) {
+      const target = document.querySelector(hash)
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" })
+        return
+      }
+    }
+
     window.scrollTo({ top: 0, behavior: "instant" })
-  }, [pathname])
+  }, [pathname, hash])
   return null
 }
 
@@ -34,7 +43,10 @@ export default function App() {
             <Route path="/hackathons" element={<Hackathons />} />
             <Route path="/achievements" element={<Achievements />} />
             <Route path="/about" element={<About />} />
+            <Route path="/experience" element={<Experience />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

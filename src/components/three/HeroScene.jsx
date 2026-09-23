@@ -58,13 +58,13 @@ function NeuralLattice({ reduced }) {
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[lines, 3]} />
         </bufferGeometry>
-        <lineBasicMaterial color="#8f6532" transparent opacity={0.5} />
+        <lineBasicMaterial color="#6b7280" transparent opacity={0.5} />
       </lineSegments>
       <points>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[pointsPositions, 3]} />
         </bufferGeometry>
-        <pointsMaterial color="#d3a25c" size={0.06} sizeAttenuation transparent opacity={0.9} />
+        <pointsMaterial color="#f4f4f5" size={0.06} sizeAttenuation transparent opacity={0.9} />
       </points>
     </group>
   )
@@ -83,7 +83,7 @@ export default function HeroScene() {
       <div className="flex h-full w-full items-center justify-center">
         <div
           className="h-56 w-56 rounded-full blur-2xl"
-          style={{ background: "radial-gradient(circle, rgba(211,162,92,0.24), transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(255,255,255,0.16), transparent 70%)" }}
         />
       </div>
     )
@@ -95,7 +95,7 @@ export default function HeroScene() {
         <div className="flex h-full w-full items-center justify-center">
           <div
             className="h-56 w-56 rounded-full blur-2xl"
-            style={{ background: "radial-gradient(circle, rgba(211,162,92,0.2), transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, rgba(255,255,255,0.14), transparent 70%)" }}
           />
         </div>
       }

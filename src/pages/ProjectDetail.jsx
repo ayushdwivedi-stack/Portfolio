@@ -1,10 +1,20 @@
 import { useParams, Link, Navigate } from "react-router-dom"
-import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink } from "lucide-react"
 import { GithubGlyph } from "@/components/ui/BrandIcons"
 import { getProjectById, projects } from "@/data/projects"
 import ArchitectureFlow from "@/components/projects/ArchitectureFlow"
 import OrchestratorDiagram from "@/components/projects/OrchestratorDiagram"
+import ProjectPreview from "@/components/projects/ProjectPreview"
 import RevealText from "@/components/motion/RevealText"
+
+function DetailBlock({ title, children }) {
+  return (
+    <section className="rounded-[1.5rem] border border-border-soft bg-surface p-6 md:p-8">
+      <p className="num-label mb-4 uppercase">{title}</p>
+      <div className="text-base leading-7 text-text-dim">{children}</div>
+    </section>
+  )
+}
 
 export default function ProjectDetail() {
   const { id } = useParams()
@@ -14,168 +24,178 @@ export default function ProjectDetail() {
 
   const idx = projects.findIndex((p) => p.id === id)
   const next = projects[(idx + 1) % projects.length]
+  const progressTitle = project.status === "Completed" ? "Outcome" : "Current Progress"
 
   return (
-    <div className="px-6 pb-28 pt-16 md:px-10">
-      <div className="mx-auto max-w-[1200px]">
+    <div className="px-5 pb-28 pt-16 md:px-8">
+      <div className="mx-auto max-w-[1180px]">
         <Link
           to="/projects"
           data-cursor="interactive"
-          className="mb-12 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-text-dim transition-colors hover:text-accent"
+          className="mb-12 inline-flex items-center gap-2 text-sm font-semibold text-text-dim transition-colors hover:text-text"
         >
-          <ArrowLeft size={14} /> All Projects
+          <ArrowLeft size={16} /> All Projects
         </Link>
 
-        <div className="mb-4 flex items-center gap-3">
-          <span className="num-label">{project.number}</span>
-          <span className="num-label uppercase" style={{ color: "var(--color-accent-dim)" }}>
-            {project.category}
-          </span>
-        </div>
-
-        <h1 className="mb-8 font-display text-5xl font-medium leading-[1.03] text-balance md:text-7xl">
-          <RevealText>{project.title}</RevealText>
-        </h1>
-
-        <p className="mb-10 max-w-2xl text-lg leading-relaxed text-text-dim">
-          {project.longDescription}
-        </p>
-
-        <div className="mb-16 flex flex-wrap items-center gap-4">
-          {project.github ? (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="interactive"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 font-mono text-xs uppercase tracking-[0.1em] hover:border-accent hover:text-accent"
-            >
-              <GithubGlyph size={14} /> Source
-            </a>
-          ) : (
-            <span className="inline-flex items-center gap-2 rounded-full border border-border-soft px-6 py-3 font-mono text-xs uppercase tracking-[0.1em] text-text-faint">
-              <GithubGlyph size={14} /> Source — coming soon
+        <header className="mb-12">
+          <div className="mb-5 flex flex-wrap items-center gap-3">
+            <span className="num-label">{project.number}</span>
+            <span className="num-label uppercase">{project.category}</span>
+            <span className="rounded-full border border-border-soft px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-text-dim">
+              {project.status}
             </span>
-          )}
-          {project.liveDemo ? (
-            <a
-              href={project.liveDemo}
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="interactive"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 font-mono text-xs uppercase tracking-[0.1em] hover:border-accent hover:text-accent"
-            >
-              <ExternalLink size={14} /> Live Demo
-            </a>
-          ) : null}
+          </div>
+
+          <h1 className="max-w-4xl text-balance text-5xl font-semibold tracking-[-0.055em] md:text-7xl">
+            <RevealText>{project.title}</RevealText>
+          </h1>
+
+          <p className="mt-7 max-w-3xl text-xl leading-8 text-text-dim">
+            {project.longDescription}
+          </p>
+
+          <div className="mt-9 flex flex-wrap items-center gap-4">
+            {project.github ? (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noreferrer"
+                data-cursor="interactive"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold hover:bg-text hover:text-bg"
+              >
+                <GithubGlyph size={14} /> GitHub
+              </a>
+            ) : (
+              <span className="inline-flex items-center gap-2 rounded-full border border-border-soft px-6 py-3 text-sm font-semibold text-text-faint">
+                <GithubGlyph size={14} /> GitHub placeholder
+              </span>
+            )}
+            {project.liveDemo ? (
+              <a
+                href={project.liveDemo}
+                target="_blank"
+                rel="noreferrer"
+                data-cursor="interactive"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold hover:bg-text hover:text-bg"
+              >
+                <ExternalLink size={14} /> Live Demo
+              </a>
+            ) : (
+              <span className="inline-flex items-center gap-2 rounded-full border border-border-soft px-6 py-3 text-sm font-semibold text-text-faint">
+                {project.status === "Coming Soon" ? "Coming Soon" : "Live demo placeholder"}
+              </span>
+            )}
+          </div>
+        </header>
+
+        <div className="mb-14 overflow-hidden rounded-[1.5rem] border border-border-soft bg-surface shadow-[var(--shadow-soft)] md:max-w-4xl">
+          <ProjectPreview project={project} />
+          <div className="p-6 md:p-8">
+            <p className="num-label mb-3 uppercase">Project Preview</p>
+            <h2 className="text-2xl font-semibold tracking-[-0.04em]">{project.title}</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-text-dim">{project.description}</p>
+          </div>
         </div>
 
-        <div className="mb-16 flex flex-wrap gap-2">
-          {project.technologies.map((t) => (
+        <div className="mb-12 flex flex-wrap gap-2">
+          {project.technologies.map((technology) => (
             <span
-              key={t}
-              className="rounded-full border border-border-soft px-3 py-1.5 font-mono text-[11px] uppercase tracking-wide text-text-dim"
+              key={technology}
+              className="rounded-full border border-border-soft px-3 py-1.5 text-xs font-medium text-text-dim"
             >
-              {t}
+              {technology}
             </span>
           ))}
         </div>
 
-        <div
-          className="mb-20 aspect-[16/8] rounded-2xl border border-border-soft"
-          style={{
-            background:
-              "radial-gradient(circle at 30% 20%, rgba(211,162,92,0.12), transparent 55%), linear-gradient(160deg, var(--color-surface), var(--color-bg))",
-          }}
-        />
+        <div className="mb-14 grid gap-5 md:grid-cols-2">
+          <DetailBlock title="Overview">
+            <p>{project.description}</p>
+          </DetailBlock>
+          <DetailBlock title="Problem">
+            <p>{project.problem}</p>
+          </DetailBlock>
+          <DetailBlock title="Solution">
+            <p>{project.solution}</p>
+          </DetailBlock>
+          <DetailBlock title={progressTitle}>
+            <p>{project.outcome || project.statusNote}</p>
+          </DetailBlock>
+        </div>
 
-        {/* ---- Architecture ---- */}
-        <section className="mb-20">
-          <div className="mb-8 flex items-center gap-3">
-            <span className="num-label">ARCHITECTURE</span>
-            <span className="hairline flex-1" />
-          </div>
-          <div className="overflow-x-auto rounded-2xl border border-border-soft bg-surface p-8">
-            {Array.isArray(project.architecture) ? (
-              <ArchitectureFlow steps={project.architecture} direction="horizontal" />
-            ) : (
-              <OrchestratorDiagram architecture={project.architecture} />
-            )}
-          </div>
-        </section>
-
-        {/* ---- Rate limiter algorithms ---- */}
-        {project.algorithms && (
-          <section className="mb-20">
-            <div className="mb-8 flex items-center gap-3">
-              <span className="num-label">RATE LIMITING STRATEGIES</span>
-              <span className="hairline flex-1" />
+        {project.architecture ? (
+          <section className="mb-14 rounded-[1.5rem] border border-border-soft bg-surface p-6 md:p-8">
+            <p className="num-label mb-6 uppercase">Architecture</p>
+            <div className="overflow-x-auto rounded-2xl border border-border-soft bg-bg/70 p-6">
+              {Array.isArray(project.architecture) ? (
+                <ArchitectureFlow steps={project.architecture} direction="horizontal" />
+              ) : (
+                <OrchestratorDiagram architecture={project.architecture} />
+              )}
             </div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {project.algorithms.map((algo) => (
-                <div key={algo.name} className="rounded-2xl border border-border-soft bg-surface p-6">
-                  <h4 className="mb-2 font-display text-lg font-medium">{algo.name}</h4>
-                  <p className="text-sm leading-relaxed text-text-dim">{algo.detail}</p>
+          </section>
+        ) : null}
+
+        {project.algorithms ? (
+          <section className="mb-14 rounded-[1.5rem] border border-border-soft bg-surface p-6 md:p-8">
+            <p className="num-label mb-6 uppercase">Rate Limiting Strategies</p>
+            <div className="grid gap-4 md:grid-cols-3">
+              {project.algorithms.map((algorithm) => (
+                <div key={algorithm.name} className="rounded-2xl border border-border-soft bg-bg/70 p-5">
+                  <h3 className="mb-2 text-lg font-semibold tracking-[-0.03em]">{algorithm.name}</h3>
+                  <p className="text-sm leading-6 text-text-dim">{algorithm.detail}</p>
                 </div>
               ))}
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-3 rounded-2xl border border-border-soft bg-surface p-6">
-              <span className="rounded-full border border-danger/40 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wide" style={{ color: "var(--color-danger)" }}>
-                HTTP 429 — Too Many Requests
-              </span>
-              <p className="text-sm text-text-dim">Returned when a client exceeds its configured limit.</p>
-            </div>
           </section>
-        )}
+        ) : null}
 
-        {/* ---- Features ---- */}
-        <section className="mb-20 grid grid-cols-1 gap-12 md:grid-cols-2">
-          <div>
-            <div className="mb-6 flex items-center gap-3">
-              <span className="num-label">FEATURES</span>
-              <span className="hairline flex-1" />
-            </div>
+        <section className="mb-14 grid gap-5 md:grid-cols-2">
+          <DetailBlock title="Features">
             <ul className="space-y-3">
-              {project.features.map((f) => (
-                <li key={f} className="flex items-start gap-3 text-sm leading-relaxed text-text-dim">
-                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full" style={{ backgroundColor: "var(--color-accent)" }} />
-                  {f}
+              {project.features.map((feature) => (
+                <li key={feature} className="flex items-start gap-3">
+                  <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-text" />
+                  <span>{feature}</span>
                 </li>
               ))}
             </ul>
-          </div>
-          <div>
-            <div className="mb-6 flex items-center gap-3">
-              <span className="num-label">CHALLENGES</span>
-              <span className="hairline flex-1" />
-            </div>
-            <p className="text-sm leading-relaxed text-text-dim">{project.challenges}</p>
-            {project.outcome && (
-              <>
-                <div className="mb-4 mt-8 flex items-center gap-3">
-                  <span className="num-label">OUTCOME</span>
-                  <span className="hairline flex-1" />
-                </div>
-                <p className="text-sm leading-relaxed text-text-dim">{project.outcome}</p>
-              </>
+          </DetailBlock>
+          <DetailBlock title="What I Learned">
+            <p>{project.learned}</p>
+          </DetailBlock>
+        </section>
+
+        <section className="mb-14 rounded-[1.5rem] border border-border-soft bg-surface p-6 md:p-8">
+          <p className="num-label mb-6 uppercase">Links</p>
+          <div className="flex flex-wrap gap-4">
+            {project.github ? (
+              <a href={project.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-text">
+                GitHub <ArrowUpRight size={15} />
+              </a>
+            ) : (
+              <span className="text-sm font-semibold text-text-faint">GitHub URL placeholder</span>
+            )}
+            {project.liveDemo ? (
+              <a href={project.liveDemo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-text">
+                Live Demo <ArrowUpRight size={15} />
+              </a>
+            ) : (
+              <span className="text-sm font-semibold text-text-faint">{project.status === "Coming Soon" ? "Coming Soon" : "Live demo URL placeholder"}</span>
             )}
           </div>
         </section>
 
-        {/* ---- Next project ---- */}
         <Link
           to={`/projects/${next.id}`}
           data-cursor="interactive"
-          className="group flex items-center justify-between rounded-2xl border border-border-soft bg-surface px-8 py-8 transition-colors hover:border-accent-dim"
+          className="group flex items-center justify-between rounded-[1.5rem] border border-border-soft bg-surface px-7 py-8 transition hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]"
         >
           <div>
-            <p className="num-label mb-2">NEXT PROJECT</p>
-            <p className="font-display text-2xl font-medium md:text-3xl">{next.title}</p>
+            <p className="num-label mb-2 uppercase">Next Project</p>
+            <p className="text-2xl font-semibold tracking-[-0.04em] md:text-3xl">{next.title}</p>
           </div>
-          <ArrowUpRight
-            size={24}
-            className="text-text-faint transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-accent"
-          />
+          <ArrowRight size={22} className="text-text transition group-hover:translate-x-1" />
         </Link>
       </div>
     </div>

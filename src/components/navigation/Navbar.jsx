@@ -1,91 +1,116 @@
 import { useEffect, useState } from "react"
-import { Link, NavLink } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { AnimatePresence, motion } from "framer-motion"
-import { Menu, X, ArrowUpRight } from "lucide-react"
+import { Menu, Moon, Sun, X } from "lucide-react"
 import { navLinks } from "@/data/skills"
-import MagneticButton from "@/components/motion/MagneticButton"
+import { profile } from "@/data/profile"
+import { GithubGlyph, LinkedinGlyph } from "@/components/ui/BrandIcons"
+
+function useTheme() {
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === "undefined") return "light"
+    const saved = window.localStorage.getItem("theme")
+    if (saved) return saved
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+  })
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    window.localStorage.setItem("theme", theme)
+  }, [theme])
+
+  return [theme, setTheme]
+}
+
+function NavItem({ link, onClick }) {
+  return (
+    <Link
+      to={link.path}
+      onClick={onClick}
+      data-cursor="interactive"
+      className="text-sm font-medium text-text-dim transition-colors hover:text-text"
+    >
+      {link.label}
+    </Link>
+  )
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [theme, setTheme] = useTheme()
+  const location = useLocation()
 
   useEffect(() => {
     function onScroll() {
-      setScrolled(window.scrollY > 24)
+      setScrolled(window.scrollY > 18)
     }
+
+    onScroll()
     window.addEventListener("scroll", onScroll)
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   useEffect(() => {
+    setOpen(false)
+  }, [location.pathname, location.hash])
+
+  useEffect(() => {
     document.body.style.overflow = open ? "hidden" : ""
-    return () => { document.body.style.overflow = "" }
+    return () => {
+      document.body.style.overflow = ""
+    }
   }, [open])
+
+  const iconButton =
+    "inline-flex h-10 w-10 items-center justify-center rounded-full border border-border-soft bg-surface/70 text-text-dim transition hover:-translate-y-0.5 hover:border-border hover:text-text"
 
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-          scrolled ? "bg-bg/80 backdrop-blur-md border-b border-border-soft" : "bg-transparent"
+        className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
+          scrolled ? "glass-nav border-border-soft shadow-[0_8px_30px_rgba(15,23,42,0.06)]" : "border-transparent bg-transparent"
         }`}
       >
-        <nav className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-10">
+        <nav className="mx-auto flex h-16 max-w-[1180px] items-center justify-between px-5 md:px-8">
           <Link
             to="/"
-            className="font-display text-sm font-semibold tracking-[0.08em] text-text"
             data-cursor="interactive"
+            className="text-sm font-semibold tracking-tight text-text"
+            aria-label="Ayush Dwivedi home"
           >
-            AYUSH<span style={{ color: "var(--color-accent)" }}>.DEV</span>
+            Ayush Dwivedi
           </Link>
 
-          <ul className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-7 md:flex">
             {navLinks.map((link) => (
-              <li key={link.path}>
-                <NavLink
-                  to={link.path}
-                  data-cursor="interactive"
-                  className={({ isActive }) =>
-                    `group relative flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] transition-colors ${
-                      isActive ? "text-text" : "text-text-dim hover:text-text"
-                    }`
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span style={{ color: "var(--color-accent)" }}>{link.number}</span>
-                      <span className="uppercase">{link.label}</span>
-                      <span
-                        className="absolute -bottom-1.5 left-0 h-px bg-accent transition-all duration-300"
-                        style={{
-                          width: isActive ? "100%" : "0%",
-                          backgroundColor: "var(--color-accent)",
-                        }}
-                      />
-                    </>
-                  )}
-                </NavLink>
-              </li>
+              <NavItem key={link.path} link={link} />
             ))}
-          </ul>
+          </div>
 
-          <div className="hidden md:block">
-            <MagneticButton
-              as={Link}
-              to="/contact"
-              data-cursor="interactive"
-              className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] text-text transition-colors hover:border-accent hover:text-accent"
-              style={{ "--tw-border-opacity": 1 }}
+          <div className="hidden items-center gap-2 md:flex">
+            <a className={iconButton} href={profile.social.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+              <GithubGlyph size={16} />
+            </a>
+            <a className={iconButton} href={profile.social.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <LinkedinGlyph size={16} />
+            </a>
+            <button
+              type="button"
+              className={iconButton}
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
-              Let's Connect
-              <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </MagneticButton>
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
           </div>
 
           <button
+            type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="flex items-center justify-center rounded-full border border-border p-2.5 text-text md:hidden"
+            onClick={() => setOpen((value) => !value)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border-soft bg-surface/70 text-text md:hidden"
           >
             {open ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -93,51 +118,43 @@ export default function Navbar() {
       </header>
 
       <AnimatePresence>
-        {open && (
+        {open ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-bg/98 backdrop-blur-xl md:hidden"
+            className="fixed inset-0 z-40 bg-bg/96 px-6 pt-24 backdrop-blur-2xl md:hidden"
           >
-            <nav className="flex h-full flex-col justify-center gap-6 px-8">
-              {navLinks.map((link, i) => (
+            <nav className="mx-auto flex max-w-sm flex-col gap-6">
+              {navLinks.map((link, index) => (
                 <motion.div
                   key={link.path}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.06 * i, duration: 0.4 }}
+                  transition={{ delay: index * 0.04 }}
                 >
-                  <NavLink
-                    to={link.path}
-                    onClick={() => setOpen(false)}
-                    className="flex items-baseline gap-4 font-display text-4xl font-medium text-text"
-                  >
-                    <span className="font-mono text-sm" style={{ color: "var(--color-accent)" }}>
-                      {link.number}
-                    </span>
-                    {link.label}
-                  </NavLink>
+                  <NavItem link={link} onClick={() => setOpen(false)} />
                 </motion.div>
               ))}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.06 * navLinks.length, duration: 0.4 }}
-                className="mt-4"
-              >
-                <Link
-                  to="/contact"
-                  onClick={() => setOpen(false)}
-                  className="inline-flex items-center gap-2 rounded-full border border-accent px-6 py-3 font-mono text-xs uppercase tracking-[0.1em]"
-                  style={{ color: "var(--color-accent)" }}
+              <div className="mt-4 flex gap-3">
+                <a className={iconButton} href={profile.social.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+                  <GithubGlyph size={16} />
+                </a>
+                <a className={iconButton} href={profile.social.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                  <LinkedinGlyph size={16} />
+                </a>
+                <button
+                  type="button"
+                  className={iconButton}
+                  aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                 >
-                  Let's Connect <ArrowUpRight size={14} />
-                </Link>
-              </motion.div>
+                  {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                </button>
+              </div>
             </nav>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </>
   )

@@ -1,31 +1,34 @@
 import { Link } from "react-router-dom"
-import { profile } from "@/data/profile"
 import { ArrowUpRight } from "lucide-react"
+import { profile } from "@/data/profile"
 
 export default function Footer() {
+  const links = [
+    ["GitHub", profile.social.github],
+    ["LinkedIn", profile.social.linkedin],
+    ["Email", `mailto:${profile.email}`],
+  ]
+
   return (
-    <footer className="border-t border-border-soft px-6 py-14 md:px-10">
-      <div className="mx-auto flex max-w-[1600px] flex-col gap-10 md:flex-row md:items-end md:justify-between">
+    <footer className="border-t border-border-soft px-5 py-12 md:px-8">
+      <div className="mx-auto flex max-w-[1180px] flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="num-label mb-3">05 / FOOTER</p>
-          <Link to="/contact" className="font-display text-3xl font-medium leading-tight text-balance md:text-4xl">
-            Let's build something<br />worth shipping.
+          <Link to="/" className="text-lg font-semibold tracking-[-0.02em] text-text">
+            {profile.name}
           </Link>
+          <p className="mt-2 text-sm text-text-dim">Building things for the web.</p>
         </div>
-        <div className="flex flex-wrap gap-6 font-mono text-xs uppercase tracking-[0.1em] text-text-dim">
-          <a href={profile.social.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-accent">
-            GitHub <ArrowUpRight size={12} />
-          </a>
-          <a href={profile.social.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-accent">
-            LinkedIn <ArrowUpRight size={12} />
-          </a>
-          <a href={profile.social.leetcode} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-accent">
-            LeetCode <ArrowUpRight size={12} />
-          </a>
-        </div>
+        <nav className="flex flex-wrap gap-5 text-sm font-medium text-text-dim">
+          <Link to="/blog" className="hover:text-text">Blog</Link>
+          {links.map(([label, href]) => (
+            <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noreferrer" : undefined} className="inline-flex items-center gap-1 hover:text-text">
+              {label} <ArrowUpRight size={13} />
+            </a>
+          ))}
+        </nav>
       </div>
-      <p className="mx-auto mt-14 max-w-[1600px] font-mono text-[11px] text-text-faint">
-        © {new Date().getFullYear()} {profile.name}. Built with React, Three.js &amp; Framer Motion.
+      <p className="mx-auto mt-10 max-w-[1180px] text-xs text-text-faint">
+        Copyright {new Date().getFullYear()} {profile.name}. Built with React, Vite, and Framer Motion.
       </p>
     </footer>
   )

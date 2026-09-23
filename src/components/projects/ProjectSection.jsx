@@ -66,7 +66,7 @@ export default function ProjectSection({ project, index }) {
             className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border-soft"
             style={{
               background:
-                "radial-gradient(circle at 30% 20%, rgba(211,162,92,0.12), transparent 55%), linear-gradient(160deg, var(--color-surface), var(--color-bg))",
+                "radial-gradient(circle at 30% 20%, rgba(0,0,0,0.08), transparent 55%), linear-gradient(160deg, var(--color-surface), var(--color-bg))",
             }}
           >
             <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 ease-out group-hover:scale-105">

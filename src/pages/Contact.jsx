@@ -28,12 +28,12 @@ export default function Contact() {
     <div className="px-6 pb-28 pt-16 md:px-10">
       <div className="mx-auto max-w-[1200px]">
         <p className="num-label mb-6">CONTACT</p>
-        <h1 className="mb-16 max-w-3xl font-display text-5xl font-medium leading-[1.05] text-balance md:text-7xl">
+        <h1 className="mb-16 max-w-3xl text-5xl font-semibold leading-[1.05] tracking-[-0.05em] text-balance md:text-7xl">
           <RevealText>Let's build</RevealText>
           <br />
           <RevealText delay={0.08}>something</RevealText>
           <br />
-          <RevealText delay={0.16} className="glow-text">
+          <RevealText delay={0.16}>
             worth shipping.
           </RevealText>
         </h1>
@@ -49,7 +49,7 @@ export default function Contact() {
                 <a
                   href={`mailto:${profile.email}`}
                   data-cursor="interactive"
-                  className="group flex items-center justify-between rounded-2xl border border-border-soft bg-surface px-6 py-5 transition-colors hover:border-accent-dim"
+                  className="group flex items-center justify-between rounded-[1.5rem] border border-border-soft bg-surface px-6 py-5 shadow-[var(--shadow-soft)] transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]"
                 >
                   <span className="flex items-center gap-3 font-mono text-sm">
                     <Mail size={16} /> {profile.email}
@@ -64,7 +64,7 @@ export default function Contact() {
                   target="_blank"
                   rel="noreferrer"
                   data-cursor="interactive"
-                  className="group flex items-center justify-between rounded-2xl border border-border-soft bg-surface px-6 py-5 transition-colors hover:border-accent-dim"
+                  className="group flex items-center justify-between rounded-[1.5rem] border border-border-soft bg-surface px-6 py-5 shadow-[var(--shadow-soft)] transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]"
                 >
                   <span className="flex items-center gap-3 font-mono text-sm uppercase tracking-wide">
                     <Icon size={16} /> {label}
@@ -85,7 +85,7 @@ export default function Contact() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-2xl border border-accent-dim bg-surface p-8"
+                className="rounded-[1.5rem] border border-border-soft bg-surface p-8 shadow-[var(--shadow-soft)]"
               >
                 <p className="font-display text-lg">Thanks for reaching out.</p>
                 <p className="mt-2 text-sm text-text-faint">
@@ -99,27 +99,27 @@ export default function Contact() {
                   placeholder="Name"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="rounded-xl border border-border-soft bg-surface px-5 py-4 text-sm outline-none transition-colors focus:border-accent"
+                  className="rounded-[1rem] border border-border-soft bg-surface px-5 py-4 text-sm outline-none transition-colors focus:border-accent"
                 />
                 <input
                   type="email"
                   placeholder="Email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="rounded-xl border border-border-soft bg-surface px-5 py-4 text-sm outline-none transition-colors focus:border-accent"
+                  className="rounded-[1rem] border border-border-soft bg-surface px-5 py-4 text-sm outline-none transition-colors focus:border-accent"
                 />
                 <textarea
                   placeholder="Message"
                   rows={5}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="resize-none rounded-xl border border-border-soft bg-surface px-5 py-4 text-sm outline-none transition-colors focus:border-accent"
+                  className="resize-none rounded-[1rem] border border-border-soft bg-surface px-5 py-4 text-sm outline-none transition-colors focus:border-accent"
                 />
                 <MagneticButton
                   onClick={handleSubmit}
                   data-cursor="interactive"
                   className="inline-flex w-fit items-center gap-2 rounded-full px-7 py-3.5 font-mono text-xs uppercase tracking-[0.1em]"
-                  style={{ backgroundColor: "var(--color-accent)", color: "#06070a" }}
+                  style={{ backgroundColor: "var(--color-text)", color: "var(--color-bg)" }}
                 >
                   Send Message
                   <ArrowUpRight size={14} />
