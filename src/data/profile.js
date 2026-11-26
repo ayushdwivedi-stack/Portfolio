@@ -7,11 +7,11 @@ export const profile = {
   institution: "B.Tech Student at Galgotias College of Engineering and Technology",
   email: "ayushdwivedi8756326270@gmail.com",
   image: "/images/profile.jpg",
-  resumeUrl: "", // TODO: add a link to a hosted resume PDF
+  resumeUrl: "https://github.com/ayushdwivedi-stack/resume/raw/main/Ayush_Dwivedi_Resume.pdf",
   social: {
     github: "https://github.com/ayushdwivedi-stack",
     leetcode: "https://leetcode.com/u/dubeykayush_2004/",
-    linkedin: "https://www.linkedin.com/in/ayush-dwivedi-2533b832/",
+    linkedin: "https://www.linkedin.com/in/ayush-dwivedi-28a2a5323/",
   },
   leetcode: {
     username: "dubeykayush_2004",
