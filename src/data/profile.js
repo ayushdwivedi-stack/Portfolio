@@ -5,7 +5,7 @@ export const profile = {
   tagline: "I build things for the web and intelligent systems.",
   location: "Kanpur, Uttar Pradesh, India",
   institution: "B.Tech Student at Galgotias College of Engineering and Technology",
-  email: "ayushdwivedi8756326270@gmail.com",
+  email: "ayush.patternix@gmail.com",
   image: "/images/profile.jpg",
   resumeUrl: "https://github.com/ayushdwivedi-stack/resume/raw/main/Ayush_Dwivedi_Resume.pdf",
   social: {
